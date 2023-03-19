@@ -164,7 +164,7 @@ window.onload = function main() {
 }
 
 function refresh() {
-    console.log(shapes);
+    console.log(shapes); // !
     shapes.forEach(shape => shape.draw());
 }
 
