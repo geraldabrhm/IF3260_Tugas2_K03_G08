@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>2D Web Based CAD</title>
+
+    <!-- Libraries -->
+    <script src="lib/webgl-utils.js" defer></script>
+    <script src="lib/canvas.js" defer></script>
+    <script src="lib/gl.js" defer></script>
+
+    <!-- Models -->
+    <script src="Models/Shape.js" defer></script>
+    <script src="Models/Face.js" defer></script>
+    <script src="Models/Vertex.js" defer></script>
+
+    <!-- Utils -->
+    <script src="utils/utils.js" defer></script>
+
+    <!-- Main -->
+    <script src="script.js" defer></script>
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <div class="header">
+      <h1>3D Web Based CAD</h1>
+    </div>
+    <div class="content">
+      <div class="center">
+        <canvas id="webgl-canvas" width="640" height="640">
+          Oops ... your browser doesn't support the HTML5 canvas element
+        </canvas>
+        <div class="slidecontainer">
+            <input type="range" min="-0.3" step="0.000001" max="0.3" class="slider" id="rotateX">
+            <input type="range" min="-0.3" step="0.000001" max="0.3" class="slider" id="rotateY">
+            <input type="range" min="-0.3" step="0.000001" max="0.3" class="slider" id="rotateZ">
+        </div>
+        <button id="export-btn">export</button>
+        <input type="file" id="file-input" accept="application/json" />
+        <button id="import-btn">Import</button>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,103 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 14px;
+    color: #000;
+}
+
+.header {
+    padding: 10px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.content {
+    height: 80vh;
+    display: flex;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.left {
+    width: 80px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+}
+
+.add-shape {
+    width: 72px;
+    height: 72px;
+    text-align: center;
+    line-height: 80px;
+    font-size: 20px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.right {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    height: 100%;
+}
+
+.top {
+    flex: 1;
+    width: 100%;
+    display: flex;
+    padding: 10px;
+    gap: 16px
+}
+
+.top>div {
+    width: 50%;
+    overflow: auto;
+}
+
+.bottom {
+    flex: 3;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 16px
+}
+
+.footer {
+    height: 10vh;
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+}
+
+#add-line{
+    font-size : 12px;
+}
+
+#add-square{
+    font-size : 12px;
+}
+
+#add-rectangle{
+    font-size : 12px;
+}
+
+#add-polygon{
+    font-size : 12px;
+}
