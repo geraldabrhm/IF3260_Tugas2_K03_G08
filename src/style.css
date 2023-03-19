@@ -1,3 +1,6 @@
+/* 
+    Global
+*/
 * {
     margin: 0;
     padding: 0;
@@ -9,95 +12,53 @@ body {
     color: #000;
 }
 
-.header {
+header {
     padding: 10px;
     text-align: center;
     font-size: 20px;
     font-weight: bold;
 }
 
-.content {
-    height: 80vh;
+main {
+    padding: 10px;
     display: flex;
-    padding-left: 10px;
-    padding-right: 10px;
 }
 
-.left {
-    width: 80px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+button {
+    padding: 0.3em;
+}
+/* 
+    main section
+*/
+
+.container {
+    padding: 10px;
 }
 
-.add-shape {
-    width: 72px;
-    height: 72px;
-    text-align: center;
-    line-height: 80px;
-    font-size: 20px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-.center {
-    flex: 1;
+/* Loader */
+#model-loader {
     display: flex;
     flex-direction: column;
-    align-items: center;
 }
 
-.right {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 4px;
+#model-loader > button {
+    margin: 5px 0;
+}
+
+/* Controller */
+.slider {
+    -webkit-appearance: none;
     height: 100%;
+	width: 50%;
+    display: block;
+    background: #d3d3d3;
+    outline: none;
 }
 
-.top {
-    flex: 1;
-    width: 100%;
-    display: flex;
-    padding: 10px;
-    gap: 16px
+.config {
+    margin-bottom: 2em;
 }
 
-.top>div {
-    width: 50%;
-    overflow: auto;
-}
-
-.bottom {
-    flex: 3;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    gap: 16px
-}
-
-.footer {
-    height: 10vh;
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-}
-
-#add-line{
-    font-size : 12px;
-}
-
-#add-square{
-    font-size : 12px;
-}
-
-#add-rectangle{
-    font-size : 12px;
-}
-
-#add-polygon{
-    font-size : 12px;
+.file-config-item {
+    margin-bottom: 2px;
 }

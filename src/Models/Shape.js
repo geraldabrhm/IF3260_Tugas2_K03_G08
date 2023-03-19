@@ -4,7 +4,7 @@ class Shape {
     }
 
     load(faces) {
-        console.log(faces);
+        // console.log(faces); // ! Debug
         for (const vertcol of faces) {
             const face = new Face();
             for (const vert of vertcol.vertices) {
@@ -15,7 +15,7 @@ class Shape {
             }
             this.faces.push(face);
         }
-        console.log(this.faces);
+        // console.log(this.faces); // ! Debug
     }
   
     getFaces() {
@@ -84,6 +84,6 @@ class Shape {
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         this.faces.forEach(face => face.draw());
-        console.log(this.faces)
+        // console.log(this.faces); // ! Debug
     }
   }

@@ -139,16 +139,16 @@ window.onload = function main() {
     rx.addEventListener("input", function() {
         shapes[0].rotateX3D((rx.value));
         shapes[0].draw();
-        });
+    });
     ry.addEventListener("input", function() {
         shapes[0].rotateY3D((ry.value));
         shapes[0].draw();
-        });
+    });
 
     rz.addEventListener("input", function() {
         shapes[0].rotateZ3D((rz.value));
         shapes[0].draw();
-        });
+    });
 
     // s.draw();
 
@@ -195,7 +195,9 @@ function importShape() {
         shapes.splice(0, shapes.length);
         for (const shape of shapeJSON) {
             const newS = new Shape();
+            // console.info(newS); // ! Debug
             newS.load(shape.faces);
+            // console.info(newS); // ! Debug
             shapes.push(newS);
         }
         refresh();
