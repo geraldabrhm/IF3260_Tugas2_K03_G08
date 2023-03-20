@@ -183,24 +183,6 @@ window.onload = function main() {
         refresh();
     });
 
-    scaleX.addEventListener("change", e => {
-        const scaleFactor = scaleX.value;
-        shapes[0].matTransform = mTransform.scale(scaleFactor, 1, 1);
-        shapes[0].draw();
-    })
-
-    scaleY.addEventListener("change", e => {
-        const scaleFactor = scaleY.value;
-        shapes[0].matTransform = mTransform.scale(1, scaleFactor, 1);
-        shapes[0].draw();
-    })
-
-    scaleZ.addEventListener("change", e => {
-        const scaleFactor = scaleZ.value;
-        shapes[0].matTransform = mTransform.scale(1, 1, scaleFactor);
-        shapes[0].draw();
-    })
-
     const exportbtn = document.getElementById("export-btn");
     exportbtn.addEventListener("click", function() {
         exportShape(shapes);
