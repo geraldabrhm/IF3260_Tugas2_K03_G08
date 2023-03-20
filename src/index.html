@@ -9,13 +9,16 @@
     <script src="lib/canvas.js" defer></script>
     <script src="lib/gl.js" defer></script>
 
+    <!-- Utils -->
+    <script src="utils/utils.js" defer></script>
+
     <!-- Models -->
     <script src="Models/Shape.js" defer></script>
     <script src="Models/Face.js" defer></script>
     <script src="Models/Vertex.js" defer></script>
 
-    <!-- Utils -->
-    <script src="utils/utils.js" defer></script>
+    <!-- Program State -->
+    <script src="state.js" defer></script>
 
     <!-- Main -->
     <script src="script.js" defer></script>
@@ -44,19 +47,23 @@
         <h2>Controller</h2>
         <div id="model-configuration" class="config">
             <label>Rotasi X-axis</label>
-            <input type="range" min="-0.3" step="0.000001" max="0.3" class="slider" id="rotateX">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateX">
             <label>Rotasi Y-axis</label>
-            <input type="range" min="-0.3" step="0.000001" max="0.3" class="slider" id="rotateY">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateY">
             <label>Rotasi Z-axis</label>
-            <input type="range" min="-0.3" step="0.000001" max="0.3" class="slider" id="rotateZ">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateZ">
             <label>Translasi X</label>
-            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateX">
+            <input type="range" min="-10" step="0.000001" max="10" class="slider" id="translateX">
             <label>Translasi Y</label>
-            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateY">
+            <input type="range" min="-10" step="0.000001" max="10" class="slider" id="translateY">
             <label>Translasi Z</label>
-            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateZ">
-            <label>Scaling</label>
-            <input type="number" min="-10" step="0.1" max="10" id="scale">
+            <input type="range" min="-10" step="0.000001" max="10" class="slider" id="translateZ">
+            <label>Scaling X</label>
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleX" value="1">
+            <label>Scaling Y</label>
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleY" value="1">
+            <label>Scaling Z</label>
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleZ" value="1">
         </div>
         <div id="file-configuration" class="config">
           <div class="file-config-item">

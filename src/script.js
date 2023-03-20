@@ -1,10 +1,12 @@
-const shapes = [];
-const rx = document.getElementById("rotateX");
-const ry = document.getElementById("rotateY");
-const rz = document.getElementById("rotateZ");
+const rotateX = document.getElementById("rotateX");
+const rotateY = document.getElementById("rotateY");
+const rotateZ = document.getElementById("rotateZ");
 const translateX = document.getElementById("translateX");
 const translateY = document.getElementById("translateY");
 const translateZ = document.getElementById("translateZ");
+const scaleX = document.getElementById("scaleX");
+const scaleY = document.getElementById("scaleY");
+const scaleZ = document.getElementById("scaleZ");
 
 
 window.onload = function main() {
@@ -138,40 +140,49 @@ window.onload = function main() {
 
     // refresh();
 
-    rx.addEventListener("input", function() {
-        shapes[0].rotateX3D((rx.value));
-        shapes[0].draw();
+    rotateX.addEventListener("input", function() {
+        transformationStates[currentShapeIndex].rotation[0] = rotateX.value;
+        refresh();
     });
-    ry.addEventListener("input", function() {
-        shapes[0].rotateY3D((ry.value));
-        shapes[0].draw();
+    rotateY.addEventListener("input", function() {
+        transformationStates[currentShapeIndex].rotation[1] = rotateY.value;
+        refresh();
     });
 
-    rz.addEventListener("input", function() {
-        shapes[0].rotateZ3D((rz.value));
-        shapes[0].draw();
+    rotateZ.addEventListener("input", function() {
+        transformationStates[currentShapeIndex].rotation[2] = rotateZ.value;
+        refresh();
     });
 
     translateX.addEventListener("input", e => {
-        const currentXVal = shapes[0].getFaces()[0].getVertices()[0][0];
-        const shiftVal = translateX.value - currentXVal;
-        shapes[0].translate(shiftVal, 0, 0);
-        shapes[0].draw();
-    })
+        transformationStates[currentShapeIndex].translation[0] = translateX.value;
+        refresh();
+    });
 
     translateY.addEventListener("input", e => {
-        const currentYVal = shapes[0].getFaces()[0].getVertices()[0][1];
-        const shiftVal = translateY.value - currentYVal;
-        shapes[0].translate(0, shiftVal, 0);
-        shapes[0].draw();
-    })
+        transformationStates[currentShapeIndex].translation[1] = translateY.value;
+        refresh();
+    });
 
     translateZ.addEventListener("input", e => {
-        const currentZVal = shapes[0].getFaces()[0].getVertices()[0][2];
-        const shiftVal = translateZ.value - currentZVal;
-        shapes[0].translate(0, 0, shiftVal);
-        shapes[0].draw();
-    })
+        transformationStates[currentShapeIndex].translation[2] = translateZ.value;
+        refresh();
+    });
+
+    scaleX.addEventListener("input", e => {
+        transformationStates[currentShapeIndex].scale[0] = scaleX.value;
+        refresh();
+    });
+
+    scaleY.addEventListener("input", e => {
+        transformationStates[currentShapeIndex].scale[1] = scaleY.value;
+        refresh();
+    });
+
+    scaleZ.addEventListener("input", e => {
+        transformationStates[currentShapeIndex].scale[2] = scaleZ.value;
+        refresh();
+    });
 
     // translateZ.addEventListener("input", e => {
     //     const currentZVal = shapes[0].getFaces()[0].getVertices()[0][2];
@@ -194,19 +205,24 @@ window.onload = function main() {
 }
 
 function refresh() {
-    console.log(shapes); // ! Debug
-    shapes.forEach(shape => shape.draw());
-    if(shapes.length !== 0) {
-        // get x,y,z value of a first vertex;
-        translateX.value = shapes[0].getFaces()[0].getVertices()[0][0]; 
-        translateY.value = shapes[0].getFaces()[0].getVertices()[0][1]; 
-        translateZ.value = shapes[0].getFaces()[0].getVertices()[0][2]; 
-        console.info(`translateX.value = ${translateX.value}\ntranslateY.value = ${translateY.value}\ntranslateZ.value = ${translateZ.value}`) // ! Debug
+    //console.log(shapes); // ! Debug
+    console.log(transformedShapes);
+    for (let i = 0; i < shapes.length; i++) {
+        transformedShapes[i] = shapes[i].generateTransformedShape(transformationStates[i]);
+        transformedShapes[i].draw();
     }
+    //shapes.forEach(shape => shape.draw());
+    // if(shapes.length !== 0) {
+    //     // get x,y,z value of a first vertex;
+    //     translateX.value = shapes[0].getFaces()[0].getVertices()[0][0]; 
+    //     translateY.value = shapes[0].getFaces()[0].getVertices()[0][1]; 
+    //     translateZ.value = shapes[0].getFaces()[0].getVertices()[0][2]; 
+    //     console.info(`translateX.value = ${translateX.value}\ntranslateY.value = ${translateY.value}\ntranslateZ.value = ${translateZ.value}`) // ! Debug
+    // }
 }
 
 function exportShape(shapes) {
-    const data = JSON.stringify(shapes);
+    const data = JSON.stringify(transformedShapes);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
@@ -236,6 +252,7 @@ function importShape() {
             newS.load(shape.faces);
             // console.info(newS); // ! Debug
             shapes.push(newS);
+            transformationStates.push(defaultShapeState);
         }
         refresh();
     };
