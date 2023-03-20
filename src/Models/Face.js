@@ -16,7 +16,7 @@ class Face {
       this.colors.push(color);
   }
 
-  draw() {
-      render(this.vertices, this.colors, gl.TRIANGLE_FAN);
+  draw(matrixTransformation) {
+      render(this.vertices, this.colors, matrixTransformation, gl.TRIANGLE_FAN);
   }
 }
