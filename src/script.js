@@ -8,7 +8,6 @@ const scaleX = document.getElementById("scaleX");
 const scaleY = document.getElementById("scaleY");
 const scaleZ = document.getElementById("scaleZ");
 
-
 window.onload = function main() {
 
     // const v1 = vec4(0.5,0.5,-0.5, 1);
@@ -184,14 +183,23 @@ window.onload = function main() {
         refresh();
     });
 
-    // translateZ.addEventListener("input", e => {
-    //     const currentZVal = shapes[0].getFaces()[0].getVertices()[0][2];
-    //     const shiftVal = translateZ.value - currentZVal;
-    //     shapes[0].translate(0, 0, shif);
-    //     shapes[0].draw();
-    // })
+    scaleX.addEventListener("change", e => {
+        const scaleFactor = scaleX.value;
+        shapes[0].matTransform = mTransform.scale(scaleFactor, 1, 1);
+        shapes[0].draw();
+    })
 
-    // s.draw();
+    scaleY.addEventListener("change", e => {
+        const scaleFactor = scaleY.value;
+        shapes[0].matTransform = mTransform.scale(1, scaleFactor, 1);
+        shapes[0].draw();
+    })
+
+    scaleZ.addEventListener("change", e => {
+        const scaleFactor = scaleZ.value;
+        shapes[0].matTransform = mTransform.scale(1, 1, scaleFactor);
+        shapes[0].draw();
+    })
 
     const exportbtn = document.getElementById("export-btn");
     exportbtn.addEventListener("click", function() {

@@ -29,30 +29,31 @@ const fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
 /**
  * Sets the source code for the shaders.
  */
-const vertexShaderText = [
-  "precision mediump float;",
-  "",
-  "attribute vec4 vertPosition;",
-  "attribute vec4 vertColor;",
-  "varying vec4 fragColor;",
-  "",
-  "void main()",
-  "{",
-  "  fragColor = vertColor;",
-  "  gl_Position = vec4(vertPosition);",
-  "}",
-].join("\n");
+const vertexShaderText = `
+  precision mediump float;
+  
+  attribute vec4 vertPosition;
+  attribute vec4 vertColor;
+  varying vec4 fragColor;
+  uniform mat4 uMatrix;
+  
+  void main()
+  {
+    fragColor = vertColor;
+    gl_Position = uMatrix * vec4(vertPosition);
+  }
+`
 gl.shaderSource(vertexShader, vertexShaderText);
 
-const fragmentShaderText = [
-  "precision mediump float;",
-  "",
-  "varying vec4 fragColor;",
-  "void main()",
-  "{",
-  "  gl_FragColor = vec4(fragColor);",
-  "}",
-].join("\n");
+const fragmentShaderText = `
+  precision mediump float;
+  
+  varying vec4 fragColor;
+  void main()
+  {
+    gl_FragColor = vec4(fragColor);
+  }
+`
 gl.shaderSource(fragmentShader, fragmentShaderText);
 
 /**
@@ -107,7 +108,7 @@ gl.useProgram(program);
  *
  * Renders the vertices to the canvas.
  */
-function render(vertices, colors, type) {
+function render(vertices, colors, matrix, type) {
   const bufferObject = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferObject);
   gl.bufferData(
@@ -149,6 +150,9 @@ function render(vertices, colors, type) {
     0
   );
 
+  const matrixUniLocation = gl.getUniformLocation(program, "uMatrix");
+
+  gl.uniformMatrix4fv(matrixUniLocation, false, matrix);
   gl.enableVertexAttribArray(positionAttribLocation);
   gl.enableVertexAttribArray(colorAttribLocation);
 

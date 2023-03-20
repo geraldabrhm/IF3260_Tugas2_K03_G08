@@ -115,3 +115,7 @@ function scaleMatrix(x, y, z) {
     0, 0, 0, 1
   ];
 }
+
+const degToRad = (deg) => {
+  return deg * (Math.PI / 180);
+}

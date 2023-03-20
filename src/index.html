@@ -4,6 +4,10 @@
     <meta charset="utf-8" />
     <title>3D Web Based CAD</title>
 
+    <!-- Utils -->
+    <script src="utils/utils.js" defer></script>
+    <script src="utils/transform-util.js" defer></script>
+
     <!-- Libraries -->
     <script src="lib/webgl-utils.js" defer></script>
     <script src="lib/canvas.js" defer></script>
@@ -58,11 +62,11 @@
             <input type="range" min="-10" step="0.000001" max="10" class="slider" id="translateY">
             <label>Translasi Z</label>
             <input type="range" min="-10" step="0.000001" max="10" class="slider" id="translateZ">
-            <label>Scaling X</label>
+            <label>Scale X</label>
             <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleX" value="1">
-            <label>Scaling Y</label>
+            <label>Scale Y</label>
             <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleY" value="1">
-            <label>Scaling Z</label>
+            <label>Scale Z</label>
             <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleZ" value="1">
         </div>
         <div id="file-configuration" class="config">
