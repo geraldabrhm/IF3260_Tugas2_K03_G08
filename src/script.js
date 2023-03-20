@@ -1,4 +1,11 @@
 const shapes = [];
+const rx = document.getElementById("rotateX");
+const ry = document.getElementById("rotateY");
+const rz = document.getElementById("rotateZ");
+const translateX = document.getElementById("translateX");
+const translateY = document.getElementById("translateY");
+const translateZ = document.getElementById("translateZ");
+
 
 window.onload = function main() {
 
@@ -131,11 +138,6 @@ window.onload = function main() {
 
     // refresh();
 
-    const rx = document.getElementById("rotateX");
-    const ry = document.getElementById("rotateY");
-    const rz = document.getElementById("rotateZ");
-
-
     rx.addEventListener("input", function() {
         shapes[0].rotateX3D((rx.value));
         shapes[0].draw();
@@ -149,6 +151,34 @@ window.onload = function main() {
         shapes[0].rotateZ3D((rz.value));
         shapes[0].draw();
     });
+
+    translateX.addEventListener("input", e => {
+        const currentXVal = shapes[0].getFaces()[0].getVertices()[0][0];
+        const shiftVal = translateX.value - currentXVal;
+        shapes[0].translate(shiftVal, 0, 0);
+        shapes[0].draw();
+    })
+
+    translateY.addEventListener("input", e => {
+        const currentYVal = shapes[0].getFaces()[0].getVertices()[0][1];
+        const shiftVal = translateY.value - currentYVal;
+        shapes[0].translate(0, shiftVal, 0);
+        shapes[0].draw();
+    })
+
+    translateZ.addEventListener("input", e => {
+        const currentZVal = shapes[0].getFaces()[0].getVertices()[0][2];
+        const shiftVal = translateZ.value - currentZVal;
+        shapes[0].translate(0, 0, shiftVal);
+        shapes[0].draw();
+    })
+
+    // translateZ.addEventListener("input", e => {
+    //     const currentZVal = shapes[0].getFaces()[0].getVertices()[0][2];
+    //     const shiftVal = translateZ.value - currentZVal;
+    //     shapes[0].translate(0, 0, shif);
+    //     shapes[0].draw();
+    // })
 
     // s.draw();
 
@@ -164,8 +194,15 @@ window.onload = function main() {
 }
 
 function refresh() {
-    console.log(shapes); // !
+    console.log(shapes); // ! Debug
     shapes.forEach(shape => shape.draw());
+    if(shapes.length !== 0) {
+        // get x,y,z value of a first vertex;
+        translateX.value = shapes[0].getFaces()[0].getVertices()[0][0]; 
+        translateY.value = shapes[0].getFaces()[0].getVertices()[0][1]; 
+        translateZ.value = shapes[0].getFaces()[0].getVertices()[0][2]; 
+        console.info(`translateX.value = ${translateX.value}\ntranslateY.value = ${translateY.value}\ntranslateZ.value = ${translateZ.value}`) // ! Debug
+    }
 }
 
 function exportShape(shapes) {

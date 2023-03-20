@@ -26,6 +26,18 @@ class Shape {
         this.faces.push(face);
     }
 
+    translate(shiftX, shiftY, shiftZ) {
+        this.faces.forEach(face => {
+            for (let i = 0; i < face.vertices.length; i++) {
+                const [x, y, z, w] = face.getVertices()[i];
+                console.info(x,y,z,w); // ! Debug
+                face.getVertices()[i][0] = x + shiftX;
+                face.getVertices()[i][1] = y + shiftY;
+                face.getVertices()[i][2] = z + shiftZ;
+            }
+        })
+    }
+
     rotateY3D(theta) {
         const sinTheta = Math.sin(theta);
         const cosTheta = Math.cos(theta);
