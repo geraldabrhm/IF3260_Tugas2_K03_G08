@@ -1,8 +1,8 @@
 function defaultGlobalState() {
     return {
         projectionType: "orthographic", // orthographic, oblique, perspective
-        cameraRadius: 10,
-        cameraRotation: 0
+        cameraRadius: 1,
+        cameraRotation: 0,
     }
 }
 
@@ -19,6 +19,7 @@ const shapes = [];
 const transformationStates = [];
 const transformedShapes = [];
 let currentShapeIndex = 0;
+let cameraMatrix = null;
 
 
 

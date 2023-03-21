@@ -47,9 +47,11 @@ class Shape {
         return centroid;
     }
 
-    generateTransformedShape(transformationState) {
+    generateTransformedShape(transformationState, viewTransformMatrix) {
         let transformedShape = new Shape();
-        let transformationMatrix = generateTransformationMatrix(transformationState, this.getCentroid());
+        console.info(viewTransformMatrix); // ! Debug
+        let transformationMatrix = generateTransformationMatrix(transformationState, this.getCentroid(), viewTransformMatrix);
+        // console.info(transformationMatrix); // ! Debug
 
         transformedShape.load(this.getFaces());
         transformedShape.faces.forEach(face => {

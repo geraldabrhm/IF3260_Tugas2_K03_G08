@@ -104,9 +104,26 @@ const mUtil = {
                     e13, e14, e15, e16 ]= flattenMat;
             
             return (
-                (e1 * mUtil.detMat3([e5, e6, e8, e9])) -
-                (e2 * mUtil.detMat3([e4, e6, e7, e9])) +
-                (e3 * mUtil.detMat3([e4, e5, e7, e8]))
+                (e1 * mUtil.detMat3([
+                    e6, e7, e8, 
+                    e10, e11,e12,
+                    e14, e15, e16
+                ])) -
+                (e2 * mUtil.detMat3([
+                    e5, e7, e8,
+                    e9, e11, e12,
+                    e13, e15, e16
+                ])) +
+                (e3 * mUtil.detMat3([
+                    e5, e6, e8,
+                    e9, e10, e12,
+                    e13, e14, e16
+                ])) -
+                (e4 * mUtil.detMat3([
+                    e5, e6, e7,
+                    e9, e10, e11,
+                    e13, e14, e15
+                ]))
             )
         } catch(err) {
             console.error(err);
@@ -155,15 +172,28 @@ const mUtil = {
         return mat[0].map((col, i) => mat.map(row => row[i]));
     },
 
-    inverse: (mat) => {
-        return 0 // TODO 
+    inverseMat4: (mat) => {
+        const det = mUtil.detMat4(mat);
+        const factor = 1 / det;
+        const adjoin = mUtil.transpose(mUtil.cofactorMat4(mat));
+        let res = []
+
+        for(let i = 0; i < adjoin.length; i++) {
+            let newRow = [];
+            for(let j = 0; j < adjoin[i].length; j++) {
+                const elmt = factor * adjoin[i][j];
+                newRow.push(elmt);
+            }
+            res.push(newRow);
+        }
+        return res;
     }
 }
 
-// console.info(mUtil.cofactorMat4(
-        // [[1, 3, 2, 2], 
-        // [5, 2, 1, 2],
-        // [2, -1, 1, 2],
-        // [1, 2, 4, 2]]
+// console.info(mUtil.inverseMat4(
+//         [[1, 3, 2, 2], 
+//         [5, 2, 1, 2],
+//         [2, -1, 1, 2],
+//         [1, 2, 4, 2]]
 //     )
-// ) // ! Debug
+// ) // ! Test
