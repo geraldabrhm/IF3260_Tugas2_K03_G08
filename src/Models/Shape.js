@@ -130,7 +130,7 @@ class Shape {
 
     draw() {
         //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-        this.faces.forEach(face => face.draw(this.matTransform));
+        this.faces.forEach(face => face.draw(mUtil.identity()));
         //this.matTransform = mUtil.identity();
         // console.log(this.faces); // ! Debug
     }
