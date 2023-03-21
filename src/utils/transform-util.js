@@ -1,4 +1,4 @@
-mTransform = {
+const mTransform = {
     translate: (shiftX, shiftY, shiftZ) => {
         return [
             1,  0,  0,  0,
@@ -50,3 +50,120 @@ mTransform = {
         ];
     },
 }
+
+const mUtil = {
+    identity: () => {
+        return [
+            1, 0, 0, 0,
+            0, 1, 0, 0,
+            0, 0, 1, 0,
+            0, 0, 0, 1,
+        ]
+    },
+
+    detMat2: (mat) => {
+        try {
+            const flattenMat = flatten(mat);
+            if(flattenMat.length != 4) {
+                throw "Input matrix invalid"
+            }
+
+            return (flattenMat[0] * flattenMat[3]) - (flattenMat[1] * flattenMat[2]);
+        } catch(err) {
+            console.error(err);
+        }
+    },
+    
+    detMat3: (mat) => {
+        try {
+            flattenMat = flatten(mat);
+            if(flattenMat.length != 9) {
+                throw "Input matrix invalid"
+            }
+            const [e1, e2, e3, e4, e5, e6, e7, e8, e9]= flattenMat;
+            
+            return (
+                (e1 * mUtil.detMat2([e5, e6, e8, e9])) -
+                (e2 * mUtil.detMat2([e4, e6, e7, e9])) +
+                (e3 * mUtil.detMat2([e4, e5, e7, e8]))
+            )
+        } catch(err) {
+            console.error(err);
+        }
+    },
+
+    detMat4: (mat) => {
+        try {
+            flattenMat = flatten(mat);
+            if(flattenMat.length != 16) {
+                throw "Input matrix invalid"
+            }
+            const [ e1, e2, e3, e4,
+                    e5, e6, e7, e8,
+                    e9, e10, e11, e12,
+                    e13, e14, e15, e16 ]= flattenMat;
+            
+            return (
+                (e1 * mUtil.detMat3([e5, e6, e8, e9])) -
+                (e2 * mUtil.detMat3([e4, e6, e7, e9])) +
+                (e3 * mUtil.detMat3([e4, e5, e7, e8]))
+            )
+        } catch(err) {
+            console.error(err);
+        }
+    },
+
+    cofactorMat4: (mat) => {
+        try {
+            flattenMat = flatten(mat);
+            if(flattenMat.length != 16) {
+                throw "Input matrix invalid"
+            }
+            const [ e1, e2, e3, e4,
+                    e5, e6, e7, e8,
+                    e9, e10, e11, e12,
+                    e13, e14, e15, e16 ]= flattenMat;
+            
+            return (
+                [   [mUtil.detMat3([e6, e7, e8, e10, e11, e12, e14, e15, e16]), 
+                    -mUtil.detMat3([e5, e7, e8, e9, e11, e12, e13, e15, e16]),
+                    mUtil.detMat3([e5, e6, e8, e9, e10, e12, e13, e14, e16]),
+                    -mUtil.detMat3([e5, e6, e7, e9, e10, e11, e13, e14, e15])],
+
+                    [-mUtil.detMat3([e2, e3, e4, e10, e11, e12, e14, e15, e16]),
+                    mUtil.detMat3([e1, e3, e4, e9, e11, e12, e13, e15, e16]),
+                    -mUtil.detMat3([e1, e2, e4, e9, e10, e12, e13, e14, e16]),
+                    mUtil.detMat3([e1, e2, e3, e9, e10, e11, e13, e14, e15])],
+
+                    [mUtil.detMat3([e2, e3, e4, e6, e7, e8, e14, e15, e16]),
+                    -mUtil.detMat3([e1, e3, e4, e5, e7, e8, e13, e15, e16]),
+                    mUtil.detMat3([e1, e2, e4, e5, e6, e8, e13, e14, e16]),
+                    -mUtil.detMat3([e1, e2, e3, e5, e6, e7, e13, e14, e15])],
+
+                    [-mUtil.detMat3([e2, e3, e4, e6, e7, e8, e10, e11, e12]),
+                    mUtil.detMat3([e1, e3, e4, e5, e7, e8, e9, e11, e12]),
+                    -mUtil.detMat3([e1, e2, e4, e5, e6, e8, e9, e10, e12]),
+                    mUtil.detMat3([e1, e2, e3, e5, e6, e7, e9, e10, e11])],
+            ]
+            )
+        } catch(err) {
+            console.error(err);
+        }
+    },
+
+    transpose: (mat) => {
+        return mat[0].map((col, i) => mat.map(row => row[i]));
+    },
+
+    inverse: (mat) => {
+        return 0 // TODO 
+    }
+}
+
+// console.info(mUtil.cofactorMat4(
+        // [[1, 3, 2, 2], 
+        // [5, 2, 1, 2],
+        // [2, -1, 1, 2],
+        // [1, 2, 4, 2]]
+//     )
+// ) // ! Debug

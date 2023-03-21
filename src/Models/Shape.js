@@ -1,12 +1,7 @@
 class Shape {
     constructor() {
       this.faces = [];
-      this.matTransform = [
-        1, 0, 0, 0,
-        0, 1, 0, 0,
-        0, 0, 1, 0,
-        0, 0, 0, 1,
-      ]; // default identity matrix
+      this.matTransform = mUtil.identity(); // default: identity matrix
     }
 
     load(faces) {
@@ -136,12 +131,7 @@ class Shape {
     draw() {
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         this.faces.forEach(face => face.draw(this.matTransform));
-        this.matTransform = [
-            1, 0, 0, 0,
-            0, 1, 0, 0,
-            0, 0, 1, 0,
-            0, 0, 0, 1,
-        ];
+        this.matTransform = mUtil.identity();
         // console.log(this.faces); // ! Debug
     }
   }
