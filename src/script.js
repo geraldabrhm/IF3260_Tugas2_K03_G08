@@ -1,3 +1,4 @@
+const selectedModel = document.getElementById("selectedModel");
 const rotateX = document.getElementById("rotateX");
 const rotateY = document.getElementById("rotateY");
 const rotateZ = document.getElementById("rotateZ");
@@ -147,7 +148,6 @@ window.onload = function main() {
         transformationStates[currentShapeIndex].rotation[1] = rotateY.value;
         refresh();
     });
-
     rotateZ.addEventListener("input", function() {
         transformationStates[currentShapeIndex].rotation[2] = rotateZ.value;
         refresh();
@@ -157,12 +157,10 @@ window.onload = function main() {
         transformationStates[currentShapeIndex].translation[0] = translateX.value;
         refresh();
     });
-
     translateY.addEventListener("input", e => {
         transformationStates[currentShapeIndex].translation[1] = translateY.value;
         refresh();
     });
-
     translateZ.addEventListener("input", e => {
         transformationStates[currentShapeIndex].translation[2] = translateZ.value;
         refresh();
@@ -172,12 +170,10 @@ window.onload = function main() {
         transformationStates[currentShapeIndex].scale[0] = scaleX.value;
         refresh();
     });
-
     scaleY.addEventListener("input", e => {
         transformationStates[currentShapeIndex].scale[1] = scaleY.value;
         refresh();
     });
-
     scaleZ.addEventListener("input", e => {
         transformationStates[currentShapeIndex].scale[2] = scaleZ.value;
         refresh();
@@ -185,7 +181,12 @@ window.onload = function main() {
 
     const exportbtn = document.getElementById("export-btn");
     exportbtn.addEventListener("click", function() {
-        exportShape(shapes);
+        exportShape();
+    });
+
+    const exportCurrentbtn = document.getElementById("export-current-btn");
+    exportCurrentbtn.addEventListener("click", function() {
+        exportCurrentShape();
     });
 
     const importbtn = document.getElementById("import-btn");
@@ -197,22 +198,27 @@ window.onload = function main() {
 function refresh() {
     //console.log(shapes); // ! Debug
     console.log(transformedShapes);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     for (let i = 0; i < shapes.length; i++) {
         transformedShapes[i] = shapes[i].generateTransformedShape(transformationStates[i]);
         transformedShapes[i].draw();
     }
-    //shapes.forEach(shape => shape.draw());
-    // if(shapes.length !== 0) {
-    //     // get x,y,z value of a first vertex;
-    //     translateX.value = shapes[0].getFaces()[0].getVertices()[0][0]; 
-    //     translateY.value = shapes[0].getFaces()[0].getVertices()[0][1]; 
-    //     translateZ.value = shapes[0].getFaces()[0].getVertices()[0][2]; 
-    //     console.info(`translateX.value = ${translateX.value}\ntranslateY.value = ${translateY.value}\ntranslateZ.value = ${translateZ.value}`) // ! Debug
-    // }
 }
 
-function exportShape(shapes) {
+function exportShape() {
     const data = JSON.stringify(transformedShapes);
+    const blob = new Blob([data], { type: "application/json" });
+    const url = URL.createObjectURL(blob);
+
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "test.json";
+    document.body.appendChild(link);
+    link.click();
+}
+
+function exportCurrentShape() {
+    const data = JSON.stringify([transformedShapes[currentShapeIndex]]);
     const blob = new Blob([data], { type: "application/json" });
     const url = URL.createObjectURL(blob);
 
@@ -235,16 +241,76 @@ function importShape() {
     reader.onload = (evt) => {
         const shapeJSONstr = evt.target.result;
         const shapeJSON = JSON.parse(shapeJSONstr);
-        shapes.splice(0, shapes.length);
         for (const shape of shapeJSON) {
             const newS = new Shape();
             // console.info(newS); // ! Debug
             newS.load(shape.faces);
             // console.info(newS); // ! Debug
             shapes.push(newS);
-            transformationStates.push(defaultShapeState);
+            transformationStates.push(defaultShapeState());
         }
+        setupModelSelector();
+        setupModelControls();
         refresh();
     };
 
+}
+
+function setupModelSelector() {
+    let newValues = "";
+
+    for (let i = 0; i < shapes.length; i++) {
+        newValues += '<option value="' + i.toString() + '">Shape-' + i.toString() + '</option>';
+    }
+
+    selectedModel.innerHTML = newValues;
+    selectedModel.value = shapes.length-1;
+}
+
+function setupModelControls() {
+    console.log(transformationStates);
+    currentShapeIndex = selectedModel.value;
+    console.log(currentShapeIndex);
+
+    if (shapes.length > 0) {
+        rotateX.removeAttribute("disabled");
+        rotateY.removeAttribute("disabled");
+        rotateZ.removeAttribute("disabled");
+        translateX.removeAttribute("disabled");
+        translateY.removeAttribute("disabled");
+        translateZ.removeAttribute("disabled");
+        scaleX.removeAttribute("disabled");
+        scaleY.removeAttribute("disabled");
+        scaleZ.removeAttribute("disabled");
+
+        rotateX.value = transformationStates[currentShapeIndex].rotation[0];
+        rotateY.value = transformationStates[currentShapeIndex].rotation[1];
+        rotateZ.value = transformationStates[currentShapeIndex].rotation[2];
+        translateX.value = transformationStates[currentShapeIndex].translation[0];
+        translateY.value = transformationStates[currentShapeIndex].translation[1];
+        translateZ.value = transformationStates[currentShapeIndex].translation[2];
+        scaleX.value = transformationStates[currentShapeIndex].scale[0];
+        scaleY.value = transformationStates[currentShapeIndex].scale[1];
+        scaleZ.value = transformationStates[currentShapeIndex].scale[2];
+    } else {
+        rotateX.setAttribute("disabled", "");
+        rotateY.setAttribute("disabled", "");
+        rotateZ.setAttribute("disabled", "");
+        translateX.setAttribute("disabled", "");
+        translateY.setAttribute("disabled", "");
+        translateZ.setAttribute("disabled", "");
+        scaleX.setAttribute("disabled", "");
+        scaleY.setAttribute("disabled", "");
+        scaleZ.setAttribute("disabled", "");
+
+        rotateX.value = 0;
+        rotateY.value = 0;
+        rotateZ.value = 0;
+        translateX.value = 0;
+        translateY.value = 0;
+        translateZ.value = 0;
+        scaleX.value = 1;
+        scaleY.value = 1;
+        scaleZ.value = 1;
+    }
 }

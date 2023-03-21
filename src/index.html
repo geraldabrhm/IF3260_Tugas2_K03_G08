@@ -48,31 +48,38 @@
         Oops ... your browser doesn't support the HTML5 canvas element
       </canvas>
       <div class="container">
-        <h2>Controller</h2>
+        <h2>Model Controller</h2>
         <div id="model-configuration" class="config">
+            <label>Select model to edit:</label>
+            <select id="selectedModel" name="selectedModel" onchange="setupModelControls()"></select>
+            <br><hr><br>
             <label>Rotasi X-axis</label>
-            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateX">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateX" disabled>
             <label>Rotasi Y-axis</label>
-            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateY">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateY" disabled>
             <label>Rotasi Z-axis</label>
-            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateZ">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="rotateZ" disabled>
             <label>Translasi X</label>
-            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateX">
+            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateX" disabled>
             <label>Translasi Y</label>
-            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateY">
+            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateY" disabled>
             <label>Translasi Z</label>
-            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateZ">
+            <input type="range" min="-1" step="0.000001" max="1" class="slider" id="translateZ" disabled>
             <label>Scale X</label>
-            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleX" value="1">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleX" value="1" disabled>
             <label>Scale Y</label>
-            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleY" value="1">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleY" value="1" disabled>
             <label>Scale Z</label>
-            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleZ" value="1">
+            <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleZ" value="1" disabled>
         </div>
         <div id="file-configuration" class="config">
+          <h2>Export</h2>
           <div class="file-config-item">
             <button id="export-btn">Export</button>
+            <button id="export-current-btn">Export Selected</button>
           </div>
+          <br>
+          <h2>Import</h2>
           <div class="file-config-item">
             <button id="import-btn">Import</button>
             <input type="file" id="file-input" accept="application/json" />
