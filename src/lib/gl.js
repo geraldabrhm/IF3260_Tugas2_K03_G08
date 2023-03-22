@@ -37,11 +37,12 @@ const vertexShaderText = `
   attribute vec4 vertColor;
   varying vec4 fragColor;
   uniform mat4 uMatrix;
+  uniform mat4 projectionMatrix;
   
   void main()
   {
     fragColor = vertColor;
-    gl_Position = uMatrix * vec4(vertPosition);
+    gl_Position = projectionMatrix * uMatrix * vec4(vertPosition);
   }
 `
 gl.shaderSource(vertexShader, vertexShaderText);
@@ -152,8 +153,22 @@ function render(vertices, colors, matrix, type) {
   );
 
   const matrixUniLocation = gl.getUniformLocation(program, "uMatrix");
+  const projectionMatrix = gl.getUniformLocation(program, "projectionMatrix");
 
   gl.uniformMatrix4fv(matrixUniLocation, false, matrix);
+  console.log(globalState.projectionType)
+
+  if (globalState.projectionType == "perspective") {
+    gl.uniformMatrix4fv(projectionMatrix, false, perspectiveMatrix(30, 1, -0.001, 10));
+  }
+  else if (globalState.projectionType == "orthographic") {
+    console.log("AAAA")
+    gl.uniformMatrix4fv(projectionMatrix, false, orthographicMatrix(-1, 1, -1, 1, 1, -1));
+  } else {
+    console.log("BBBB")
+    gl.uniformMatrix4fv(projectionMatrix, false, obliqueMatrix(30));
+  }
+
   gl.enableVertexAttribArray(positionAttribLocation);
   gl.enableVertexAttribArray(colorAttribLocation);
 

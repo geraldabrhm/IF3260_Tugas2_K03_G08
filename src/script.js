@@ -1,4 +1,5 @@
 const selectedModel = document.getElementById("selectedModel");
+const selectedProjection = document.getElementById("selectedProjection");
 const rotateX = document.getElementById("rotateX");
 const rotateY = document.getElementById("rotateY");
 const rotateZ = document.getElementById("rotateZ");
@@ -253,7 +254,6 @@ function importShape() {
         setupModelControls();
         refresh();
     };
-
 }
 
 function setupModelSelector() {
@@ -313,4 +313,9 @@ function setupModelControls() {
         scaleY.value = 1;
         scaleZ.value = 1;
     }
+}
+
+function setProjectionType() {
+    globalState.projectionType = selectedProjection.value;
+    refresh();
 }
