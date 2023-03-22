@@ -9,6 +9,8 @@ const translateZ = document.getElementById("translateZ");
 const scaleX = document.getElementById("scaleX");
 const scaleY = document.getElementById("scaleY");
 const scaleZ = document.getElementById("scaleZ");
+const cameraAngle = document.getElementById("cameraAngle");
+const cameraRadius = document.getElementById("cameraRadius");
 
 window.onload = function main() {
 
@@ -180,6 +182,16 @@ window.onload = function main() {
         refresh();
     });
 
+    cameraAngle.addEventListener("input",  () => {
+        globalState.cameraRotation = cameraAngle.value;
+        refresh();
+    });
+    
+    cameraRadius.addEventListener("input", () => {
+        globalState.cameraRadius = cameraRadius.value;
+        refresh();
+    });
+
     const exportbtn = document.getElementById("export-btn");
     exportbtn.addEventListener("click", function() {
         exportShape();
@@ -197,11 +209,20 @@ window.onload = function main() {
 }
 
 function refresh() {
-    //console.log(shapes); // ! Debug
-    console.log(transformedShapes);
+    // console.log(shapes); // ! Debug
+    // console.log(transformedShapes); // ! Debug
+
+    // Handle camera matrix transformation
+    const translateRMatrix = mTransform.translate(0, 0, globalState.cameraRadius); 
+    cameraMatrix = mTransform.rotateY(degToRad(globalState.cameraRotation));
+    cameraMatrix = mat4mult(cameraMatrix, translateRMatrix);
+    
+    const viewTransformMatrix = mUtil.inverseMat4(cameraMatrix);
+
+
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     for (let i = 0; i < shapes.length; i++) {
-        transformedShapes[i] = shapes[i].generateTransformedShape(transformationStates[i]);
+        transformedShapes[i] = shapes[i].generateTransformedShape(transformationStates[i], viewTransformMatrix);
         transformedShapes[i].draw();
     }
 }
@@ -268,20 +289,13 @@ function setupModelSelector() {
 }
 
 function setupModelControls() {
-    console.log(transformationStates);
+    // console.log(transformationStates); // ! Debug
     currentShapeIndex = selectedModel.value;
-    console.log(currentShapeIndex);
+    // console.log(currentShapeIndex); // ! Debug
+    const allInput = document.querySelectorAll("#model-configuration > input");
 
     if (shapes.length > 0) {
-        rotateX.removeAttribute("disabled");
-        rotateY.removeAttribute("disabled");
-        rotateZ.removeAttribute("disabled");
-        translateX.removeAttribute("disabled");
-        translateY.removeAttribute("disabled");
-        translateZ.removeAttribute("disabled");
-        scaleX.removeAttribute("disabled");
-        scaleY.removeAttribute("disabled");
-        scaleZ.removeAttribute("disabled");
+        Array.from(allInput, input => input.removeAttribute("disabled"));
 
         rotateX.value = transformationStates[currentShapeIndex].rotation[0];
         rotateY.value = transformationStates[currentShapeIndex].rotation[1];
@@ -293,15 +307,7 @@ function setupModelControls() {
         scaleY.value = transformationStates[currentShapeIndex].scale[1];
         scaleZ.value = transformationStates[currentShapeIndex].scale[2];
     } else {
-        rotateX.setAttribute("disabled", "");
-        rotateY.setAttribute("disabled", "");
-        rotateZ.setAttribute("disabled", "");
-        translateX.setAttribute("disabled", "");
-        translateY.setAttribute("disabled", "");
-        translateZ.setAttribute("disabled", "");
-        scaleX.setAttribute("disabled", "");
-        scaleY.setAttribute("disabled", "");
-        scaleZ.setAttribute("disabled", "");
+        Array.from(allInput, input => input.setAttribute("disabled", ""));
 
         rotateX.value = 0;
         rotateY.value = 0;

@@ -43,13 +43,16 @@ function generateTransformationMatrix(transformationState, centroid) {
   rotation = transformationState.rotation;
   scale = transformationState.scale;
 
-  return mat4mult(
+  const transformMat = mat4mult(
     translationMatrix(translation[0], translation[1], translation[2]),
     mat4mult(
       rotationMatrix(rotation[0], rotation[1], rotation[2], centroid),
       scaleMatrix(scale[0], scale[1], scale[2])
     )
-  )
+  );
+  // console.info(transformMat); // ! Debug
+
+  return transformMat;
 }
 
 function translationMatrix(x, y, z) {
@@ -116,6 +119,6 @@ function scaleMatrix(x, y, z) {
   ];
 }
 
-// const degToRad = (deg) => {
-//   return deg * (Math.PI / 180);
-// }
+function degToRad(deg) {
+  return deg * (Math.PI / 180);
+}
