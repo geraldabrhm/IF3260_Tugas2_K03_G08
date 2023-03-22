@@ -9,6 +9,7 @@ const scaleX = document.getElementById("scaleX");
 const scaleY = document.getElementById("scaleY");
 const scaleZ = document.getElementById("scaleZ");
 const cameraAngle = document.getElementById("cameraAngle");
+const cameraRadius = document.getElementById("cameraRadius");
 
 window.onload = function main() {
 
@@ -183,7 +184,12 @@ window.onload = function main() {
     cameraAngle.addEventListener("input",  () => {
         globalState.cameraRotation = cameraAngle.value;
         refresh();
-    })
+    });
+    
+    cameraRadius.addEventListener("input", () => {
+        globalState.cameraRadius = cameraRadius.value;
+        refresh();
+    });
 
     const exportbtn = document.getElementById("export-btn");
     exportbtn.addEventListener("click", function() {
@@ -206,13 +212,12 @@ function refresh() {
     // console.log(transformedShapes); // ! Debug
 
     // Handle camera matrix transformation
-    // const translateRMatrix = mTransform.translate(0, 0, globalState.cameraRadius); 
-    // cameraMatrix = mTransform.rotateY(degToRad(globalState.cameraRotation));
-    // cameraMatrix = mat4mult(cameraMatrix, translateRMatrix);
+    const translateRMatrix = mTransform.translate(0, 0, globalState.cameraRadius); 
+    cameraMatrix = mTransform.rotateY(degToRad(globalState.cameraRotation));
+    cameraMatrix = mat4mult(cameraMatrix, translateRMatrix);
     
-    // const viewTransformMatrix = mUtil.inverseMat4(cameraMatrix);
+    const viewTransformMatrix = mUtil.inverseMat4(cameraMatrix);
 
-    const viewTransformMatrix = mUtil.identity(); // TODO, temporary
 
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     for (let i = 0; i < shapes.length; i++) {

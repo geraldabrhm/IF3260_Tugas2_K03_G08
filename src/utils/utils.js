@@ -38,27 +38,21 @@ function vec4multmat4(v, m) {
   return vRes;
 }
 
-function generateTransformationMatrix(transformationState, centroid, viewTransformMatrix) {
+function generateTransformationMatrix(transformationState, centroid) {
   translation = transformationState.translation;
   rotation = transformationState.rotation;
   scale = transformationState.scale;
 
-  const tempTransformMat = mat4mult(
+  const transformMat = mat4mult(
     translationMatrix(translation[0], translation[1], translation[2]),
     mat4mult(
       rotationMatrix(rotation[0], rotation[1], rotation[2], centroid),
       scaleMatrix(scale[0], scale[1], scale[2])
     )
   );
-  // console.info(tempTransformMat); // ! Debug
-  // console.info(viewTransformMatrix); // ! Debug
+  // console.info(transformMat); // ! Debug
 
-  const afterCameraMat = mat4mult(flatten(viewTransformMatrix), tempTransformMat);
-
-  // console.info(afterCameraMat); // ! Debug
-
-  // return tempTransformMat;
-  return afterCameraMat; // TODO Still broken;
+  return transformMat;
 }
 
 function translationMatrix(x, y, z) {

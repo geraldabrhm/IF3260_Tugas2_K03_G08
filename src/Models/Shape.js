@@ -49,14 +49,15 @@ class Shape {
 
     generateTransformedShape(transformationState, viewTransformMatrix) {
         let transformedShape = new Shape();
-        console.info(viewTransformMatrix); // ! Debug
-        let transformationMatrix = generateTransformationMatrix(transformationState, this.getCentroid(), viewTransformMatrix);
+        // console.info(viewTransformMatrix); // ! Debug
+        let transformationMatrix = generateTransformationMatrix(transformationState, this.getCentroid());
         // console.info(transformationMatrix); // ! Debug
-
+        
         transformedShape.load(this.getFaces());
         transformedShape.faces.forEach(face => {
             for (let i = 0; i < face.vertices.length; i++) {
                 face.getVertices()[i] = vec4multmat4(face.getVertices()[i], transformationMatrix);
+                face.getVertices()[i] = vec4multmat4(face.getVertices()[i], flatten(viewTransformMatrix));
             }
         });
 
