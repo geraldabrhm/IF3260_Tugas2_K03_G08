@@ -18,9 +18,9 @@ function orthographicMatrix() {
 
 function obliqueMatrix() {
     mOrth = [
-        1, 0, (1 / Math.tan(Math.PI / 4)) * Math.cos(Math.PI / 4), 0,
-        0, 1, (1 / Math.tan(Math.PI / 4)) * Math.sin(Math.PI / 4), 0,
-        0, 0, 1, 0,
+        1, 0, 0, 0,
+        0, 1, 0, 0,
+        Math.cos(45/180*Math.PI)/2, Math.sin(45/180*Math.PI)/2, 1, 0,
         0, 0, 0, 1
     ];
 
