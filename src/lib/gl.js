@@ -159,14 +159,14 @@ function render(vertices, colors, matrix, type) {
   console.log(globalState.projectionType)
 
   if (globalState.projectionType == "perspective") {
-    gl.uniformMatrix4fv(projectionMatrix, false, perspectiveMatrix(30, 1, -0.001, 10));
+    gl.uniformMatrix4fv(projectionMatrix, false, perspectiveMatrix());
   }
   else if (globalState.projectionType == "orthographic") {
     console.log("AAAA")
-    gl.uniformMatrix4fv(projectionMatrix, false, orthographicMatrix(-1, 1, -1, 1, 1, -1));
+    gl.uniformMatrix4fv(projectionMatrix, false, orthographicMatrix());
   } else {
     console.log("BBBB")
-    gl.uniformMatrix4fv(projectionMatrix, false, obliqueMatrix(30));
+    gl.uniformMatrix4fv(projectionMatrix, false, obliqueMatrix());
   }
 
   gl.enableVertexAttribArray(positionAttribLocation);
