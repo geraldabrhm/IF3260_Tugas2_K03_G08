@@ -11,6 +11,9 @@ const scaleY = document.getElementById("scaleY");
 const scaleZ = document.getElementById("scaleZ");
 const cameraAngle = document.getElementById("cameraAngle");
 const cameraRadius = document.getElementById("cameraRadius");
+const lightPositionX = document.getElementById("lightPositionX");
+const lightPositionY = document.getElementById("lightPositionY");
+const lightPositionZ = document.getElementById("lightPositionZ");
 
 window.onload = function main() {
 
@@ -189,6 +192,21 @@ window.onload = function main() {
     
     cameraRadius.addEventListener("input", () => {
         globalState.cameraRadius = cameraRadius.value;
+        refresh();
+    });
+
+    lightPositionX.addEventListener("input", () => {
+        globalState.lightPosition[0] = lightPositionX.value;
+        refresh();
+    });
+
+    lightPositionY.addEventListener("input", () => {
+        globalState.lightPosition[1] = lightPositionY.value;
+        refresh();
+    });
+
+    lightPositionZ.addEventListener("input", () => {
+        globalState.lightPosition[2] = lightPositionZ.value;
         refresh();
     });
 

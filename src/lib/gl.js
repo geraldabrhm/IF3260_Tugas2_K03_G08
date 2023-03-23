@@ -61,7 +61,7 @@ const fragmentShaderText = `
 
   void main()
   {
-    float light = dot(normalize(vNormal), normalize(uLightDirection));
+    float light = dot(vNormal, normalize(uLightDirection));
     gl_FragColor = vec4(fragColor);
     gl_FragColor.rgb *= light;
   }
@@ -206,7 +206,7 @@ function render(vertices, normals, colors, matrix, type) {
   var lightDirection =
       gl.getUniformLocation(program, "uLightDirection");
   
-  gl.uniform3fv(lightDirection, [1.0,1.0,-1.0]);
+  gl.uniform3fv(lightDirection, globalState.lightPosition);
 
   gl.drawArrays(type, 0, vertices.length);
 }
