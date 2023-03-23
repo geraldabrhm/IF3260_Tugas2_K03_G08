@@ -38,22 +38,32 @@ const vertexShaderText = `
   varying vec4 fragColor;
   uniform mat4 uMatrix;
   uniform mat4 projectionMatrix;
+
+  attribute vec3 aNormal;
+  varying vec3 vNormal;
   
   void main()
   {
     fragColor = vertColor;
     gl_Position = projectionMatrix * uMatrix * vec4(vertPosition);
+    vNormal = aNormal;
   }
 `
 gl.shaderSource(vertexShader, vertexShaderText);
 
 const fragmentShaderText = `
   precision mediump float;
+
+  uniform vec3 uLightDirection;
   
   varying vec4 fragColor;
+  varying vec3 vNormal;
+
   void main()
   {
+    float light = dot(normalize(vNormal), normalize(uLightDirection));
     gl_FragColor = vec4(fragColor);
+    gl_FragColor.rgb *= light;
   }
 `
 gl.shaderSource(fragmentShader, fragmentShaderText);
@@ -110,7 +120,7 @@ gl.useProgram(program);
  *
  * Renders the vertices to the canvas.
  */
-function render(vertices, colors, matrix, type) {
+function render(vertices, normals, colors, matrix, type) {
   const bufferObject = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferObject);
   gl.bufferData(
@@ -125,6 +135,26 @@ function render(vertices, colors, matrix, type) {
   gl.vertexAttribPointer(
     positionAttribLocation, // Attribute location
     4,
+    gl.FLOAT,
+    gl.FALSE,
+    0,
+    0
+  );
+
+  const bufferNormal = gl.createBuffer();
+  console.log(normals)
+  gl.bindBuffer(gl.ARRAY_BUFFER, bufferNormal);
+  gl.bufferData(
+    gl.ARRAY_BUFFER,
+    new Float32Array(flatten(normals)),
+    gl.STATIC_DRAW
+  );
+
+  const normalAttribLocation = gl.getAttribLocation(program, "aNormal");
+
+  gl.vertexAttribPointer(
+    normalAttribLocation, // Attribute location
+    3,
     gl.FLOAT,
     gl.FALSE,
     0,
@@ -170,7 +200,13 @@ function render(vertices, colors, matrix, type) {
   }
 
   gl.enableVertexAttribArray(positionAttribLocation);
+  gl.enableVertexAttribArray(normalAttribLocation);
   gl.enableVertexAttribArray(colorAttribLocation);
+
+  var lightDirection =
+      gl.getUniformLocation(program, "uLightDirection");
+  
+  gl.uniform3fv(lightDirection, [1.0,1.0,-1.0]);
 
   gl.drawArrays(type, 0, vertices.length);
 }
