@@ -68,3 +68,8 @@ footer {
 .file-config-item {
     margin-bottom: 2px;
 }
+
+canvas {
+    width: 640px;
+    height: 640px;
+}
