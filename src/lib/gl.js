@@ -55,6 +55,7 @@ const fragmentShaderText = `
   precision mediump float;
 
   uniform vec3 uLightDirection;
+  uniform bool uUseLighting;
   
   varying vec4 fragColor;
   varying vec3 vNormal;
@@ -63,7 +64,9 @@ const fragmentShaderText = `
   {
     float light = dot(vNormal, normalize(uLightDirection));
     gl_FragColor = vec4(fragColor);
-    gl_FragColor.rgb *= light;
+    if (uUseLighting) {
+      gl_FragColor.rgb *= light;
+    }
   }
 `
 gl.shaderSource(fragmentShader, fragmentShaderText);
@@ -142,7 +145,6 @@ function render(vertices, normals, colors, matrix, type) {
   );
 
   const bufferNormal = gl.createBuffer();
-  console.log(normals)
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferNormal);
   gl.bufferData(
     gl.ARRAY_BUFFER,
@@ -186,7 +188,7 @@ function render(vertices, normals, colors, matrix, type) {
   const projectionMatrix = gl.getUniformLocation(program, "projectionMatrix");
 
   gl.uniformMatrix4fv(matrixUniLocation, false, matrix);
-  console.log(globalState.projectionType)
+  // console.log(globalState.projectionType)
 
   if (globalState.projectionType == "perspective") {
     gl.uniformMatrix4fv(projectionMatrix, false, perspectiveMatrix());
@@ -207,6 +209,7 @@ function render(vertices, normals, colors, matrix, type) {
       gl.getUniformLocation(program, "uLightDirection");
   
   gl.uniform3fv(lightDirection, globalState.lightPosition);
+  gl.uniform1i(gl.getUniformLocation(program, "uUseLighting"), globalState.isLight);
 
   gl.drawArrays(type, 0, vertices.length);
 }
