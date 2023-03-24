@@ -16,12 +16,12 @@ function defaultShapeState() {
     };
 }
 
-const globalState = defaultGlobalState();
+var globalState = defaultGlobalState();
 const shapes = [];
 const transformationStates = [];
 const transformedShapes = [];
-let currentShapeIndex = 0;
-let cameraMatrix = null;
+var currentShapeIndex = 0;
+var cameraMatrix = null;
 
 
 

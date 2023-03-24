@@ -72,20 +72,8 @@
             <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleY" value="1" disabled>
             <label>Scale Z</label>
             <input type="range" min="-5" step="0.000001" max="5" class="slider" id="scaleZ" value="1" disabled>
-            <label>Camera Angle</label>
-            <input type="range" min="-180" step="1" max="180" class="slider" id="cameraAngle" value="0">
-            <label>Camera Radius</label>
-            <input type="range" min="0" step="0.0001" max="2" class="slider" id="cameraRadius" value="0">
-            <label>Light Position X</label>
-            <input type="range" min="-1" step="0.0001" max="1" class="slider" id="lightPositionX" value="1">
-            <label>Light Position Y</label>
-            <input type="range" min="-1" step="0.0001" max="1" class="slider" id="lightPositionY" value="1">
-            <label>Light Position Z</label>
-            <input type="range" min="-1" step="0.0001" max="1" class="slider" id="lightPositionZ" value="-1">
-            <input type="checkbox" id="lightCheckbox" name="isLight" value="Yes">
-            <label for="isLight"> Light Shader</label><br>
         </div>
-        <h2>Projection Controller</h2>
+        <h2>Global Controller</h2>
         <div id="projection-configuration" class="config">
             <label>Select projection type:</label>
             <select id="selectedProjection" name="selectedModel" onchange="setProjectionType()">
@@ -93,6 +81,26 @@
               <option value="orthographic">Orthographic</option>
               <option value="oblique">Oblique</option>
             </select>
+            <br><br>
+
+            <label>Camera Angle</label>
+            <input type="range" min="-180" step="1" max="180" class="slider" id="cameraAngle" value="0">
+            <label>Camera Radius</label>
+            <input type="range" min="0" step="0.0001" max="2" class="slider" id="cameraRadius" value="0">
+            <br>
+
+            <label>Light Position X</label>
+            <input type="range" min="-1" step="0.0001" max="1" class="slider" id="lightPositionX" value="1">
+            <label>Light Position Y</label>
+            <input type="range" min="-1" step="0.0001" max="1" class="slider" id="lightPositionY" value="1">
+            <label>Light Position Z</label>
+            <input type="range" min="-1" step="0.0001" max="1" class="slider" id="lightPositionZ" value="-1">
+            <br>
+            <input type="checkbox" id="lightCheckbox" name="isLight" value="Yes">
+            <label for="isLight"> Light Shader</label><br><br>
+
+            <button id="reset-view-btn">Reset view</button>
+            <button id="clear-canvas-btn">Clear canvas</button>
         </div>
         <div id="file-configuration" class="config">
           <h2>Export</h2>

@@ -93,6 +93,16 @@ window.onload = function main() {
         refresh();
     });
 
+    const resetViewbtn = document.getElementById("reset-view-btn");
+    resetViewbtn.addEventListener("click", function() {
+        resetView();
+    });
+
+    const clearCanvasbtn = document.getElementById("clear-canvas-btn");
+    clearCanvasbtn.addEventListener("click", function() {
+        clearCanvas();
+    });
+
     const exportbtn = document.getElementById("export-btn");
     exportbtn.addEventListener("click", function() {
         exportShape();
@@ -224,5 +234,37 @@ function setupModelControls() {
 
 function setProjectionType() {
     globalState.projectionType = selectedProjection.value;
+    refresh();
+}
+
+function setGlobalControls() {
+    cameraAngle.value = globalState.cameraRotation;
+    cameraRadius.value = globalState.cameraRadius;
+    lightPositionX.value = globalState.lightPosition[0];
+    lightPositionY.value = globalState.lightPosition[1];
+    lightPositionZ.value = globalState.lightPosition[2];
+    if (globalState.isLight == 0) {
+        lightCheckbox.checked = false;
+        gl.clearColor(0.75, 0.85, 0.8, 1.0);
+    }
+    else {
+        lightCheckbox.checked = true;
+        gl.clearColor(0.0, 0.0, 0.0, 0.8);
+    }
+}
+
+function resetView() {
+    globalState = defaultGlobalState();
+    setGlobalControls();
+    refresh();
+}
+
+function clearCanvas() {
+    shapes.splice(0, shapes.length);
+    transformedShapes.splice(0, transformedShapes.length);
+    transformationStates.splice(0, transformationStates.length);
+    currentShapeIndex = 0;
+    setupModelControls();
+    setupModelSelector();
     refresh();
 }
