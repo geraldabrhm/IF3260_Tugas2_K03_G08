@@ -1,7 +1,7 @@
 function defaultGlobalState() {
     return {
         projectionType: "perspective", // orthographic, oblique, perspective
-        cameraRadius: 1,
+        cameraRadius: 0,
         cameraRotation: 0,
         lightPosition: [1, 1, -1]
     }
