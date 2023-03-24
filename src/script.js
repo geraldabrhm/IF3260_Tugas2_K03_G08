@@ -238,6 +238,7 @@ function setProjectionType() {
 }
 
 function setGlobalControls() {
+    selectedProjection.value = globalState.projectionType;
     cameraAngle.value = globalState.cameraRotation;
     cameraRadius.value = globalState.cameraRadius;
     lightPositionX.value = globalState.lightPosition[0];
