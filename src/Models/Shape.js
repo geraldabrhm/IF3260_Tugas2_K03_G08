@@ -1,11 +1,9 @@
 class Shape {
     constructor() {
       this.faces = [];
-    //   this.matTransform = mUtil.identity(); // default: identity matrix
     }
 
     load(faces) {
-        // console.log(faces); // ! Debug
         for (const vertcol of faces) {
             const face = new Face();
             for (const vert of vertcol.vertices) {
@@ -16,7 +14,6 @@ class Shape {
             }
             this.faces.push(face);
         }
-        // console.log(this.faces); // ! Debug
     }
   
     getFaces() {
@@ -47,94 +44,22 @@ class Shape {
         return centroid;
     }
 
-    generateTransformedShape(transformationState, viewTransformMatrix) {
+    generateTransformedShape(transformationState) {
         let transformedShape = new Shape();
-        // console.info(viewTransformMatrix); // ! Debug
         let transformationMatrix = generateTransformationMatrix(transformationState, this.getCentroid());
-        // console.info(transformationMatrix); // ! Debug
         
         transformedShape.load(this.getFaces());
         transformedShape.faces.forEach(face => {
             for (let i = 0; i < face.vertices.length; i++) {
                 face.getVertices()[i] = vec4multmat4(face.getVertices()[i], transformationMatrix);
-                face.getVertices()[i] = vec4multmat4(face.getVertices()[i], flatten(viewTransformMatrix));
             }
         });
 
         return transformedShape;
     }
 
-    // translate(shiftX, shiftY, shiftZ) {
-    //     this.faces.forEach(face => {
-    //         for (let i = 0; i < face.vertices.length; i++) {
-    //             const [x, y, z, w] = face.getVertices()[i];
-    //             console.info(x,y,z,w); // ! Debug
-    //             face.getVertices()[i][0] = x + shiftX;
-    //             face.getVertices()[i][1] = y + shiftY;
-    //             face.getVertices()[i][2] = z + shiftZ;
-    //         }
-    //     })
-    // }
-
-    // rotateY3D(theta) {
-    //     const sinTheta = Math.sin(theta);
-    //     const cosTheta = Math.cos(theta);
-    //     this.faces.forEach(
-    //         face => {
-    //             for (let i = 0; i < face.vertices.length; i++) {
-    //                 const [x, y, z, w] = face.vertices[i];
-    //                 face.vertices[i] = [
-    //                     x * cosTheta - z * sinTheta,
-    //                     y,
-    //                     x * sinTheta + z * cosTheta,
-    //                     1.0
-    //                 ];
-    //             }
-    //         }
-    //     )
-    // };
-
-    // rotateX3D(theta) {
-    //     const sinTheta = Math.sin(theta);
-    //     const cosTheta = Math.cos(theta);
-    //     this.faces.forEach(
-    //         face => {
-    //             for (let i = 0; i < face.vertices.length; i++) {
-    //                 const [x, y, z, w] = face.vertices[i];
-    //                 face.vertices[i] = [
-    //                     x,
-    //                     y * cosTheta - z * sinTheta,
-    //                     y * sinTheta + z * cosTheta,
-    //                     1.0
-    //                 ];
-    //             }
-    //         }
-    //     )
-    // };
-
-    // rotateZ3D(theta) {
-    //     const sinTheta = Math.sin(theta);
-    //     const cosTheta = Math.cos(theta);
-    //     this.faces.forEach(
-    //         face => {
-    //             for (let i = 0; i < face.vertices.length; i++) {
-    //                 const [x, y, z, w] = face.vertices[i];
-    //                 face.vertices[i] = [
-    //                     x * cosTheta - y * sinTheta,
-    //                     x * sinTheta + y * cosTheta,
-    //                     z,
-    //                     1.0
-    //                 ];
-    //             }
-    //         }
-    //     )
-    // };
-
-
     draw() {
         //gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
         this.faces.forEach(face => face.draw(mUtil.identity()));
-        //this.matTransform = mUtil.identity();
-        // console.log(this.faces); // ! Debug
     }
   }

@@ -120,20 +120,9 @@ window.onload = function main() {
 }
 
 function refresh() {
-    // console.log(shapes); // ! Debug
-    // console.log(transformedShapes); // ! Debug
-
-    // Handle camera matrix transformation
-    const translateRMatrix = mTransform.translate(0, 0, globalState.cameraRadius); 
-    cameraMatrix = mTransform.rotateY(degToRad(globalState.cameraRotation));
-    cameraMatrix = mat4mult(cameraMatrix, translateRMatrix);
-    
-    const viewTransformMatrix = mUtil.inverseMat4(cameraMatrix);
-
-
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
     for (let i = 0; i < shapes.length; i++) {
-        transformedShapes[i] = shapes[i].generateTransformedShape(transformationStates[i], viewTransformMatrix);
+        transformedShapes[i] = shapes[i].generateTransformedShape(transformationStates[i]);
         transformedShapes[i].draw();
     }
 }
@@ -176,9 +165,7 @@ function importShape() {
         const shapeJSON = JSON.parse(shapeJSONstr);
         for (const shape of shapeJSON) {
             const newS = new Shape();
-            // console.info(newS); // ! Debug
             newS.load(shape.faces);
-            // console.info(newS); // ! Debug
             shapes.push(newS);
             transformationStates.push(defaultShapeState());
         }
@@ -200,9 +187,7 @@ function setupModelSelector() {
 }
 
 function setupModelControls() {
-    // console.log(transformationStates); // ! Debug
     currentShapeIndex = selectedModel.value;
-    // console.log(currentShapeIndex); // ! Debug
     const allInput = document.querySelectorAll("#model-configuration > input");
 
     if (shapes.length > 0) {

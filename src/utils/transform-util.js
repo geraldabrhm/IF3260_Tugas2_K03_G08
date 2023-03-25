@@ -189,11 +189,3 @@ const mUtil = {
         return res;
     }
 }
-
-// console.info(mUtil.inverseMat4(
-//         [[1, 3, 2, 2], 
-//         [5, 2, 1, 2],
-//         [2, -1, 1, 2],
-//         [1, 2, 4, 2]]
-//     )
-// ) // ! Test

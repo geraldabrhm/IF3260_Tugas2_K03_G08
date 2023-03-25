@@ -18,8 +18,6 @@ gl.clearDepth(1.0);
 gl.enable(gl.DEPTH_TEST);
 gl.depthFunc(gl.LEQUAL);
 gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-// gl.enable(gl.CULL_FACE);
-// gl.cullFace(gl.FRONT);
 
 /**
  * Creates the vertex and fragment shaders.
@@ -38,6 +36,7 @@ const vertexShaderText = `
   varying vec4 fragColor;
   uniform mat4 uMatrix;
   uniform mat4 projectionMatrix;
+  uniform mat4 viewTransformMatrix;
 
   attribute vec3 aNormal;
   varying vec3 vNormal;
@@ -45,7 +44,7 @@ const vertexShaderText = `
   void main()
   {
     fragColor = vertColor;
-    gl_Position = projectionMatrix * uMatrix * vec4(vertPosition);
+    gl_Position = viewTransformMatrix * projectionMatrix * uMatrix * vec4(vertPosition);
     vNormal = aNormal;
   }
 `
@@ -124,6 +123,7 @@ gl.useProgram(program);
  * Renders the vertices to the canvas.
  */
 function render(vertices, normals, colors, matrix, type) {
+  // * Position buffer
   const bufferObject = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferObject);
   gl.bufferData(
@@ -144,6 +144,7 @@ function render(vertices, normals, colors, matrix, type) {
     0
   );
 
+  // * Normal buffer
   const bufferNormal = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferNormal);
   gl.bufferData(
@@ -163,6 +164,7 @@ function render(vertices, normals, colors, matrix, type) {
     0
   );
 
+  // * Color buffer
   const bufferColor = gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, bufferColor);
 
@@ -186,7 +188,17 @@ function render(vertices, normals, colors, matrix, type) {
 
   const matrixUniLocation = gl.getUniformLocation(program, "uMatrix");
   const projectionMatrix = gl.getUniformLocation(program, "projectionMatrix");
+  const viewTransformMatrix = gl.getUniformLocation(program, "viewTransformMatrix");
 
+  // Handle camera matrix transformation
+  const translateRMatrix = mTransform.translate(0, 0, globalState.cameraRadius); 
+  cameraMatrix = mTransform.rotateY(degToRad(globalState.cameraRotation));
+  cameraMatrix = mat4mult(cameraMatrix, translateRMatrix);
+  
+  const viewTransform = mUtil.inverseMat4(cameraMatrix);
+  console.info(viewTransform);
+
+  gl.uniformMatrix4fv(viewTransformMatrix, false, flatten(viewTransform));
   gl.uniformMatrix4fv(matrixUniLocation, false, matrix);
   // console.log(globalState.projectionType)
 

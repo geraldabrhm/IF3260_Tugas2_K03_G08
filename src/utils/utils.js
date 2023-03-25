@@ -50,8 +50,6 @@ function generateTransformationMatrix(transformationState, centroid) {
       scaleMatrix(scale[0], scale[1], scale[2])
     )
   );
-  // console.info(transformMat); // ! Debug
-
   return transformMat;
 }
 
