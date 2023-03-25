@@ -46,8 +46,8 @@ function generateTransformationMatrix(transformationState, centroid) {
   const transformMat = mat4mult(
     translationMatrix(translation[0], translation[1], translation[2]),
     mat4mult(
-      rotationMatrix(rotation[0], rotation[1], rotation[2], centroid),
-      scaleMatrix(scale[0], scale[1], scale[2])
+      scaleMatrix(scale[0], scale[1], scale[2]),
+      rotationMatrix(rotation[0], rotation[1], rotation[2], centroid)
     )
   );
   return transformMat;
