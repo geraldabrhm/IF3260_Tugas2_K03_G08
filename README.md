@@ -10,3 +10,7 @@ Tugas Besar 2 IF3260 Grafika Komputer
 - Loading lebih dari satu model secara bersamaan sehingga terdapat sejumlah model yang saling tumpang tindih dalam canvas. (7)
 - Implementasi fitur save yang menyimpan objek yang sekarang terlihat di kanvas sebagai objek baru. (8)
 
+## Model Objek Berongga
+- Kubus : Vincent Christian Siregar (13520136)
+- Limas segitiga : Gerald Abraham Sianturi (13520138)
+- Prisma segitiga : Ignasius Ferry Priguna (13520126)
